@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 
 namespace DirectoryManager
 {
@@ -12,23 +12,30 @@ namespace DirectoryManager
 
         static void GetCatalogs()
         {
-            string dirName = @"C:\Users\B1S3\Desktop\testFolder12"; // Прописываем путь к корневой директории
-            if (Directory.Exists(dirName)) // Проверим, что директория существует
-                GetFiles(dirName);
+            try
             {
-                string[] dirs = Directory.GetDirectories(dirName);  // Получим все директории корневого каталога
-
-                foreach (string d in dirs) // Выведем их все
+                string dirName = @"C:\Users\B1S3\Desktop\testFolder12"; // Прописываем путь к корневой директории
+                if (Directory.Exists(dirName)) // Проверим, что директория существует
+                    GetFiles(dirName);
                 {
-                    Console.WriteLine("Папки:");
-                    Console.WriteLine(d);
-                    GetFiles(d);
-                    if (Directory.GetFiles(d).Length < 1)
+                    string[] dirs = Directory.GetDirectories(dirName);  // Получим все директории корневого каталога
+
+                    foreach (string d in dirs) // Выведем их все
                     {
-                        Console.WriteLine("каталог {0} удален, так как в нем нет файлов", d);
-                        Directory.Delete(d);
+                        Console.WriteLine("Папки:");
+                        Console.WriteLine(d);
+                        GetFiles(d);
+                        if (Directory.GetFiles(d).Length < 1)
+                        {
+                            Console.WriteLine("каталог {0} удален, так как в нем нет файлов", d);
+                            Directory.Delete(d);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
         static void GetFiles(string d)
